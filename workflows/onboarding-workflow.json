@@ -1,0 +1,218 @@
+{
+  "name": "AI Startup Operations Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Startup Lead Form",
+        "formDescription": "Submit your project inquiry below.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "Enter your name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Company name",
+              "placeholder": "Enter your company name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Compnay email",
+              "placeholder": "Enter your company email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Budget ($)",
+              "fieldType": "number",
+              "placeholder": "Enter your total estimated budget",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Project Type",
+              "placeholder": "What type of project you need",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Deadline",
+              "fieldType": "date"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "44067280-2a94-49af-96a4-7127eb79e3af",
+      "name": "On form submission",
+      "webhookId": "0f4d717c-d010-4f74-b7ee-4665f0d28334"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1W6WqOztc8XMkvjvOLj2IXmt1PFGWwAfsyKjqNDM2TG4",
+          "mode": "list",
+          "cachedResultName": "Startup Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1W6WqOztc8XMkvjvOLj2IXmt1PFGWwAfsyKjqNDM2TG4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1W6WqOztc8XMkvjvOLj2IXmt1PFGWwAfsyKjqNDM2TG4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "Company name": "={{ $json['Company name'] }}",
+            "Compnay email": "={{ $json['Compnay email'] }}",
+            "Budget ($)": "={{ $json.Budget }}",
+            "Project Type": "={{ $json['Project Type'] }}",
+            "Deadline": "={{ $json.Deadline }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Company name",
+              "displayName": "Company name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Compnay email",
+              "displayName": "Compnay email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Budget ($)",
+              "displayName": "Budget ($)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Project Type",
+              "displayName": "Project Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Deadline",
+              "displayName": "Deadline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "e458e9e0-bb8a-4a36-971a-35a5d401a851",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Ufh7jEp3KjDX5jnI",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "1245338357",
+        "text": "=\"🚀 New Startup Lead Received\\n\\n\n\n👤 Name: \"{{ $json.Name }}  \"\\n\\n\n\n🏢 Company: \" {{ $json['Company name'] }} \"\\n\\n\n\n📧 Email: \" {{ $json['Compnay email'] }} \"\\n\\n\n\n💰 Budget: \"  \"\\n\\n\n\n📌 Project Type: \" {{ $json['Project Type'] }} \"\\n\\n\n\n📅 Deadline: \" {{ $json.Deadline }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "51f1ddd3-5999-4567-9e8a-9185dfe7bdc1",
+      "name": "Send a text message",
+      "webhookId": "f11ee0a7-e2c3-4b10-b4ae-3ce3319844c7",
+      "credentials": {
+        "telegramApi": {
+          "id": "Dd6Vh4xNOS2B5R0A",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "e5d25ab9-9e59-49c7-bdde-b4583696143a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a9ae46873cf26e694ccf330b83ad42aa63eed52eb62b662d128e7c8e6d6a9416"
+  },
+  "id": "XAuAIwDIeibKlScg",
+  "tags": []
+}
